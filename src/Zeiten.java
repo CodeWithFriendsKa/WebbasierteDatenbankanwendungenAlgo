@@ -81,7 +81,7 @@ public class Zeiten {
 
 
 
-	public static int getGroesstegruppe() {
+	public static int getGroessteGruppe() {
 		return groesstegruppe;
 	}
 

@@ -63,11 +63,12 @@ public class MainTest {
 			System.out.println(	AlgoBibliothek.getSpielerKeineGruppeZuo().get(i).getName());
 		}
 
-		System.out.println(	"Zweiergruppen ohne Zuo:");
+		/*System.out.println(	"Zweiergruppen ohne Zuo:");
 		for(int i=0;i<AlgoBibliothek.getZweierGruppe().size();i++) {
 
 			System.out.println(	AlgoBibliothek.getZweierGruppe().get(i).getName());
 		}
+		*/
 		
 		System.out.println(	"Spieler ohne Trainer:");
 		for(int i=0;i<AlgoBibliothek.getSpielerHatKeinTrainer().size();i++) {

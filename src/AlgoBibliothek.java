@@ -63,23 +63,25 @@ public class AlgoBibliothek {
 	private static void Algorythmus(ArrayList<Spieler> spieler, ArrayList<Trainer> trainer, ArrayList<Platz> plaetze) {
 
 		SpielerOhneZuo(spieler, zeitenKopie);
-		SpielerHatFuerAlleTermineTraining(spieler, trainer, plaetze);
+		SpielerHatFuerAlleTermineTraining(spieler, trainer, plaetze, zeiten);
 		TrainerMinTermineTraining(spieler, trainer, plaetze);
 		TrainerPauseZwischenTrainingszeitenProTag(spieler, trainer, plaetze);
 
-		BesteZuo();
+		gruppenZuordnen(spieler, trainer, plaetze);
 		berechneHash();
 
 	}
 
 	@SuppressWarnings("unchecked")
 	private static void berechneHash() {
-		ArrayList<ArrayList<Zeiten>> dummy = (ArrayList<ArrayList<Zeiten>>) getVorLaeufigeMoeglichkeiten().clone();
+		ArrayList<ArrayList<Zeiten>> vorl‰ufigeClone = (ArrayList<ArrayList<Zeiten>>) getVorLaeufigeMoeglichkeiten()
+				.clone();
 
-		for (int i = 0; i < dummy.size(); i++) {
-			for (int j = 0; j < dummy.get(i).size(); j++) {
+		for (int i = 0; i < vorl‰ufigeClone.size(); i++) {
+			for (int j = 0; j < vorl‰ufigeClone.get(i).size(); j++) {
 				Hash dummyHash = null;
-				dummy.get(i).get(j).setHash(dummyHash);
+
+				vorl‰ufigeClone.get(i).get(j).setHash(dummyHash);
 			}
 
 		}
@@ -87,7 +89,8 @@ public class AlgoBibliothek {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void BesteZuo() {
+	private static void gruppenZuordnen(ArrayList<Spieler> spieler, ArrayList<Trainer> trainer,
+			ArrayList<Platz> plaetze) {
 
 		for (int z = 0; z < 7; z++) {
 
@@ -95,7 +98,7 @@ public class AlgoBibliothek {
 
 				if (zeiten.get(z * 24) == null)
 					continue;
-				for (int j = 0; j < Zeiten.getGroesstegruppe(); j++) {
+				for (int j = 0; j < Zeiten.getGroessteGruppe(); j++) {
 					ArrayList<Zeiten> dummy = GruppenZuo(i, j);
 					vorLaeufigeMoeglichkeiten.add(dummy);
 				}
@@ -103,7 +106,7 @@ public class AlgoBibliothek {
 			for (int i = 0; i < z * 24; i++) {
 				if (zeiten.get(z * 24) == null)
 					continue;
-				for (int j = 0; j < Zeiten.getGroesstegruppe(); j++) {
+				for (int j = 0; j < Zeiten.getGroessteGruppe(); j++) {
 					ArrayList<Zeiten> dummy = GruppenZuo(i, j);
 					vorLaeufigeMoeglichkeiten.add(dummy);
 				}
@@ -117,7 +120,14 @@ public class AlgoBibliothek {
 		}
 
 		for (int i = vorLaeufigeMoeglichkeiten.size() - 1; i >= 0; i--) {
-			if (!SpielerOhneZuo(dummy, vorLaeufigeMoeglichkeiten.get(i)).isEmpty())
+			if (!SpielerOhneZuo(dummy, vorLaeufigeMoeglichkeiten.get(i)).isEmpty()) {
+				vorLaeufigeMoeglichkeiten.remove(i);
+			}
+
+		}
+
+		for (int i = vorLaeufigeMoeglichkeiten.size() - 1; i >= 0; i--) {
+			if (SpielerHatFuerAlleTermineTraining(spieler, trainer, plaetze, vorLaeufigeMoeglichkeiten.get(i)) == 0)
 				vorLaeufigeMoeglichkeiten.remove(i);
 		}
 
@@ -262,8 +272,8 @@ public class AlgoBibliothek {
 
 	}
 
-	private static void SpielerHatFuerAlleTermineTraining(ArrayList<Spieler> spieler, ArrayList<Trainer> trainer,
-			ArrayList<Platz> plaetze) {
+	private static int SpielerHatFuerAlleTermineTraining(ArrayList<Spieler> spieler, ArrayList<Trainer> trainer,
+			ArrayList<Platz> plaetze, ArrayList<Zeiten> zeiten) {
 		for (int i = 0; i < spieler.size(); i++) {
 			if (spieler.get(i).getTrainingsAnzahl() == 1)
 				continue;
@@ -287,9 +297,10 @@ public class AlgoBibliothek {
 				spieler.get(i).setTrainingsAnzahlAktuell(var);
 			}
 			if (var > spieler.get(i).getTrainingsAnzahl()) {
-				continue;
-			}
+				return 0;
+			} // muss zaehlen
 		}
+		return 1;
 
 	}
 
@@ -409,62 +420,11 @@ public class AlgoBibliothek {
 		return gruppen;
 	}
 
-	/*
-	 * private static ArrayList<ArrayList<Gruppe>>
-	 * GruppenSplitten(ArrayList<ArrayList<Gruppe>> gruppen) { // Die Funktion
-	 * trennt erstellt Untergruppen (mit Spielern) die, die vorgegebene //
-	 * Gruppengroeﬂe ueberschreiten
-	 * 
-	 * for (int i = 0; i < gruppen.size(); i++) { for (int j = gruppen.get(i).size()
-	 * - 1; j >= 0; j--) {
-	 * 
-	 * if (gruppen.get(i).get(j).getSpieler().size() <=
-	 * gruppen.get(i).get(j).getMaxAnzahlSpieler()) continue; // folgend wird die
-	 * neue Gruppengroeﬂe berechnet
-	 * 
-	 * int anzahlGruppen = gruppen.get(i).get(j).getSpieler().size() /
-	 * gruppen.get(i).get(j).getMaxAnzahlSpieler(); int restLetzteGruppe =
-	 * gruppen.get(i).get(j).getSpieler().size() %
-	 * gruppen.get(i).get(j).getMaxAnzahlSpieler();
-	 * 
-	 * if (restLetzteGruppe > 0) { anzahlGruppen++; }
-	 * 
-	 * int spielerProGruppe = gruppen.get(i).get(j).getSpieler().size() /
-	 * anzahlGruppen; int restSpielerProGruppe =
-	 * gruppen.get(i).get(j).getSpieler().size() % anzahlGruppen;
-	 * 
-	 * // gruppen.get(i).get(j).getMaxAnzahlSpieler(); Gruppe gruppe =
-	 * gruppen.get(i).get(j);
-	 * 
-	 * for (int z = 1; z < anzahlGruppen; z++) {
-	 * 
-	 * Gruppe dummy = new Gruppe((z + 1) + "/" + gruppe.getName(),
-	 * gruppe.getStunde(), gruppe.getMaxAnzahlSpieler(),
-	 * gruppe.getSpielerStaerkeVon(), gruppe.getSpielerStaerkeBis(),
-	 * gruppe.getGeschlecht());
-	 * 
-	 * // die Spieler werden neu eingeordnet int restHinzufuegen = 0; if
-	 * (restSpielerProGruppe > 0) { restHinzufuegen++; }
-	 * 
-	 * for (int k = spielerProGruppe + restHinzufuegen; k > 0; k--) {
-	 * 
-	 * dummy.getSpieler().add(gruppe.getSpieler().get(k));
-	 * gruppen.get(i).get(j).getSpieler().remove(k); } gruppen.get(i).add(dummy);
-	 * 
-	 * restSpielerProGruppe--;
-	 * 
-	 * } gruppen.get(i).get(j).setName("1/" + gruppe.getName());
-	 * 
-	 * } } return gruppen; }
-	 * 
-	 * 
-	 */
-
 	private static int calcGruppenAnz(int gruppenGroesse, Gruppe gruppe) {
 		int zaehler = 0;
 
 		if (gruppe != null) {
-			int dummy2 = (int) Math.pow(gruppe.getSpieler().size(), 2);
+			int dummy2 = (int) Math.pow(2, gruppe.getSpieler().size());
 
 			String[] dummy = new String[dummy2];
 
@@ -485,45 +445,33 @@ public class AlgoBibliothek {
 	}
 
 	private static ArrayList<Gruppe> setDreierGruppen(Gruppe gruppe) {
-		int var1 = 0, var2 = 1, var3 = 2;
-		int sVar1 = 0, sVar2 = 1, sVar3 = 2;
 
 		ArrayList<Gruppe> dummy = new ArrayList<Gruppe>();
-		for (int i = 0; i < calcGruppenAnz(3, gruppe); i++) {
+		int gruppenAnz = calcGruppenAnz(3, gruppe);
+		for (int i = 0; i < gruppenAnz; i++) {
 			dummy.add(new Gruppe((i + 1) + "/" + gruppe.getName(), gruppe.getStunde(), gruppe.getMaxAnzahlSpieler(),
 					gruppe.getSpielerStaerkeVon(), gruppe.getSpielerStaerkeBis(), gruppe.getGeschlecht()));
 		}
 
-		for (int i = 0; i < dummy.size(); i++) {
+		int i = 0;
 
-			if (var3 < gruppe.getSpieler().size()) {
-				dummy.get(i).addSpieler(gruppe.getSpieler().get(var1));
-				dummy.get(i).addSpieler(gruppe.getSpieler().get(var2));
-				dummy.get(i).addSpieler(gruppe.getSpieler().get(var3));
-
-				var3++;
-			} else {
-				if (var2 < gruppe.getSpieler().size() - 1) {
-					sVar3++;
-					var3 = sVar3;
-					var2++;
-					dummy.get(i).addSpieler(gruppe.getSpieler().get(var1));
-					dummy.get(i).addSpieler(gruppe.getSpieler().get(var2));
-					dummy.get(i).addSpieler(gruppe.getSpieler().get(var3));
-
-				} else {
-					if (var1 < gruppe.getSpieler().size() - 2) {
-						sVar2++;
-						var2 = sVar2;
-						var1++;
-						dummy.get(i).addSpieler(gruppe.getSpieler().get(var1));
-						dummy.get(i).addSpieler(gruppe.getSpieler().get(var2));
-						dummy.get(i).addSpieler(gruppe.getSpieler().get(var3));
-
-					} else {
-						sVar1++;
-						var1 = sVar1;
-					}
+		for (int j = 0; j < gruppe.getSpieler().size(); j++) {
+			if (j > gruppe.getSpieler().size())
+				continue;
+			for (int k = 1; k < gruppe.getSpieler().size(); k++) {
+				if (k <= j)
+					k = j + 1;
+				if (k > gruppe.getSpieler().size())
+					continue;
+				for (int l = 2; l < gruppe.getSpieler().size(); l++) {
+					if (l <= k)
+						l = k + 1;
+					if (l >= gruppe.getSpieler().size())
+						continue;
+					dummy.get(i).addSpieler(gruppe.getSpieler().get(j));
+					dummy.get(i).addSpieler(gruppe.getSpieler().get(k));
+					dummy.get(i).addSpieler(gruppe.getSpieler().get(l));
+					i++;
 				}
 			}
 		}
@@ -533,188 +481,160 @@ public class AlgoBibliothek {
 	}
 
 	private static ArrayList<Gruppe> setViererGruppen(Gruppe gruppe) {
-		int var1 = 0, var2 = 1, var3 = 2, var4 = 3;
-		int sVar1 = 0, sVar2 = 1, sVar3 = 2, sVar4 = 3;
 
 		ArrayList<Gruppe> dummy = new ArrayList<Gruppe>();
-		for (int i = 0; i < calcGruppenAnz(4, gruppe); i++) {
+		int gruppenAnz = calcGruppenAnz(4, gruppe);
+		for (int i = 0; i < gruppenAnz; i++) {
 			dummy.add(new Gruppe((i + 1) + "/" + gruppe.getName(), gruppe.getStunde(), gruppe.getMaxAnzahlSpieler(),
 					gruppe.getSpielerStaerkeVon(), gruppe.getSpielerStaerkeBis(), gruppe.getGeschlecht()));
 		}
 
-		for (int i = 0; i < dummy.size(); i++) {
+		int i = 0;
 
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var1));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var2));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var3));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var4));
-
-			if (var4 < gruppe.getSpieler().size())
-				var4++;
-			else {
-				sVar4++;
-				var4 = sVar4;
-				if (var3 < gruppe.getSpieler().size() - 1)
-					var3++;
-				else {
-					sVar3++;
-					var3 = sVar3;
-					if (var2 < gruppe.getSpieler().size() - 2)
-						var2++;
-					else {
-						sVar2++;
-						var2 = sVar2;
-						if (var1 < gruppe.getSpieler().size() - 3)
-							var1++;
-						else if (var1 > gruppe.getSpieler().size() - 3)
+		for (int j = 0; j < gruppe.getSpieler().size(); j++) {
+			if (j > gruppe.getSpieler().size())
+				continue;
+			for (int k = 1; k < gruppe.getSpieler().size(); k++) {
+				if (k <= j)
+					k = j + 1;
+				if (k > gruppe.getSpieler().size())
+					continue;
+				for (int l = 2; l < gruppe.getSpieler().size(); l++) {
+					if (l <= k)
+						l = k + 1;
+					if (l >= gruppe.getSpieler().size())
+						continue;
+					for (int z = 2; z < gruppe.getSpieler().size(); z++) {
+						if (z <= l)
+							z = l + 1;
+						if (z >= gruppe.getSpieler().size())
 							continue;
-						else {
-							sVar1++;
-							var1 = sVar1;
-						}
+						dummy.get(i).addSpieler(gruppe.getSpieler().get(j));
+						dummy.get(i).addSpieler(gruppe.getSpieler().get(k));
+						dummy.get(i).addSpieler(gruppe.getSpieler().get(l));
+						dummy.get(i).addSpieler(gruppe.getSpieler().get(z));
+						i++;
 					}
 				}
-
 			}
 		}
-
 		return dummy;
-
 	}
 
 	private static ArrayList<Gruppe> setFuenferGruppen(Gruppe gruppe) {
-		int var1 = 0, var2 = 1, var3 = 2, var4 = 3, var5 = 4;
-		int sVar1 = 0, sVar2 = 1, sVar3 = 2, sVar4 = 3, sVar5 = 4;
 
 		ArrayList<Gruppe> dummy = new ArrayList<Gruppe>();
-		for (int i = 0; i < calcGruppenAnz(5, gruppe); i++) {
+		int gruppenAnz = calcGruppenAnz(5, gruppe);
+		for (int i = 0; i < gruppenAnz; i++) {
 			dummy.add(new Gruppe((i + 1) + "/" + gruppe.getName(), gruppe.getStunde(), gruppe.getMaxAnzahlSpieler(),
 					gruppe.getSpielerStaerkeVon(), gruppe.getSpielerStaerkeBis(), gruppe.getGeschlecht()));
 		}
 
-		for (int i = 0; i < dummy.size(); i++) {
+		int i = 0;
 
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var1));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var2));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var3));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var4));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var5));
-
-			if (var5 < gruppe.getSpieler().size())
-				var5++;
-			else {
-				sVar5++;
-				var5 = sVar5;
-				if (var4 < gruppe.getSpieler().size() - 1)
-					var4++;
-				else {
-					sVar4++;
-					var4 = sVar4;
-					if (var3 < gruppe.getSpieler().size() - 2)
-						var3++;
-					else {
-						sVar3++;
-						var3 = sVar3;
-						if (var2 < gruppe.getSpieler().size() - 3)
-							var2++;
-						else {
-							sVar2++;
-							var2 = sVar2;
-							if (var1 < gruppe.getSpieler().size() - 4)
-								var1++;
-							else if (var1 > gruppe.getSpieler().size() - 4)
+		for (int j = 0; j < gruppe.getSpieler().size(); j++) {
+			if (j > gruppe.getSpieler().size())
+				continue;
+			for (int k = 1; k < gruppe.getSpieler().size(); k++) {
+				if (k <= j)
+					k = j + 1;
+				if (k > gruppe.getSpieler().size())
+					continue;
+				for (int l = 2; l < gruppe.getSpieler().size(); l++) {
+					if (l <= k)
+						l = k + 1;
+					if (l >= gruppe.getSpieler().size())
+						continue;
+					for (int z = 2; z < gruppe.getSpieler().size(); z++) {
+						if (z <= l)
+							z = l + 1;
+						if (z >= gruppe.getSpieler().size())
+							continue;
+						for (int d = 2; d < gruppe.getSpieler().size(); d++) {
+							if (d <= z)
+								d = z + 1;
+							if (d >= gruppe.getSpieler().size())
 								continue;
-							else {
-								sVar1++;
-								var1 = sVar1;
-							}
+							dummy.get(i).addSpieler(gruppe.getSpieler().get(j));
+							dummy.get(i).addSpieler(gruppe.getSpieler().get(k));
+							dummy.get(i).addSpieler(gruppe.getSpieler().get(l));
+							dummy.get(i).addSpieler(gruppe.getSpieler().get(z));
+							dummy.get(i).addSpieler(gruppe.getSpieler().get(d));
+							i++;
 						}
 					}
 				}
 			}
-
 		}
-
 		return dummy;
 	}
 
 	private static ArrayList<Gruppe> setSechserGruppen(Gruppe gruppe) {
-		int var1 = 0, var2 = 1, var3 = 2, var4 = 3, var5 = 4, var6 = 5;
-		int sVar1 = 0, sVar2 = 1, sVar3 = 2, sVar4 = 3, sVar5 = 4, sVar6 = 5;
 
 		ArrayList<Gruppe> dummy = new ArrayList<Gruppe>();
-		for (int i = 0; i < calcGruppenAnz(6, gruppe); i++) {
+		int gruppenAnz = calcGruppenAnz(5, gruppe);
+		for (int i = 0; i < gruppenAnz; i++) {
 			dummy.add(new Gruppe((i + 1) + "/" + gruppe.getName(), gruppe.getStunde(), gruppe.getMaxAnzahlSpieler(),
 					gruppe.getSpielerStaerkeVon(), gruppe.getSpielerStaerkeBis(), gruppe.getGeschlecht()));
 		}
 
-		for (int i = 0; i < dummy.size(); i++) {
+		int i = 0;
 
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var1));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var2));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var3));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var4));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var5));
-			dummy.get(i).addSpieler(gruppe.getSpieler().get(var6));
-
-			if (var6 < gruppe.getSpieler().size())
-				var6++;
-			else {
-				sVar5++;
-				var6 = sVar6;
-				if (var5 < gruppe.getSpieler().size() - 1)
-					var6++;
-				else {
-					sVar5++;
-					var5 = sVar5;
-					if (var4 < gruppe.getSpieler().size() - 2)
-						var4++;
-					else {
-						sVar4++;
-						var4 = sVar4;
-						if (var3 < gruppe.getSpieler().size() - 3)
-							var3++;
-						else {
-							sVar3++;
-							var3 = sVar3;
-							if (var2 < gruppe.getSpieler().size() - 4)
-								var2++;
-							else {
-								sVar2++;
-								var2 = sVar2;
-								if (var1 < gruppe.getSpieler().size() - 5)
-									var1++;
-								else if (var1 > gruppe.getSpieler().size() - 5)
+		for (int j = 0; j < gruppe.getSpieler().size(); j++) {
+			if (j > gruppe.getSpieler().size())
+				continue;
+			for (int k = 1; k < gruppe.getSpieler().size(); k++) {
+				if (k <= j)
+					k = j + 1;
+				if (k > gruppe.getSpieler().size())
+					continue;
+				for (int l = 2; l < gruppe.getSpieler().size(); l++) {
+					if (l <= k)
+						l = k + 1;
+					if (l >= gruppe.getSpieler().size())
+						continue;
+					for (int z = 2; z < gruppe.getSpieler().size(); z++) {
+						if (z <= l)
+							z = l + 1;
+						if (z >= gruppe.getSpieler().size())
+							continue;
+						for (int d = 2; d < gruppe.getSpieler().size(); d++) {
+							if (d <= z)
+								d = z + 1;
+							if (d >= gruppe.getSpieler().size())
+								continue;
+							for (int e = 2; e < gruppe.getSpieler().size(); e++) {
+								if (e <= d)
+									e = d + 1;
+								if (e >= gruppe.getSpieler().size())
 									continue;
-								else {
-									sVar1++;
-									var1 = sVar1;
-								}
+								dummy.get(i).addSpieler(gruppe.getSpieler().get(j));
+								dummy.get(i).addSpieler(gruppe.getSpieler().get(k));
+								dummy.get(i).addSpieler(gruppe.getSpieler().get(l));
+								dummy.get(i).addSpieler(gruppe.getSpieler().get(z));
+								dummy.get(i).addSpieler(gruppe.getSpieler().get(d));
+								dummy.get(i).addSpieler(gruppe.getSpieler().get(e));
+
+								i++;
 							}
 						}
 					}
 				}
 			}
-
 		}
-
 		return dummy;
 	}
 
 	private static ArrayList<ArrayList<Gruppe>> GruppenSplitten(ArrayList<ArrayList<Gruppe>> gruppen) {
 
 		for (int i = 0; i < gruppen.size(); i++) {
-			for (int j = gruppen.get(i).size() - 1; j >= 0; j--) {
+			for (int j = 0; j < gruppen.get(i).size(); j++) {
 
 				if (gruppen.get(i).get(j).getSpieler().size() <= 3)
 					continue;
 
 				else if (gruppen.get(i).get(j).getSpieler().size() == 4) {
 					ArrayList<Gruppe> dummy = setDreierGruppen(gruppen.get(i).get(j));
-					for (int k = 0; k < dummy.size(); k++) {
-						gruppen.get(i).add(dummy.get(k));
-					}
-					dummy = setViererGruppen(gruppen.get(i).get(j));
 					for (int k = 0; k < dummy.size(); k++) {
 						gruppen.get(i).add(dummy.get(k));
 					}
@@ -729,14 +649,10 @@ public class AlgoBibliothek {
 					for (int k = 0; k < dummy.size(); k++) {
 						gruppen.get(i).add(dummy.get(k));
 					}
-					dummy = setFuenferGruppen(gruppen.get(i).get(j));
-					for (int k = 0; k < dummy.size(); k++) {
-						gruppen.get(i).add(dummy.get(k));
-					}
 				}
 
-				else if (gruppen.get(i).get(j).getMaxAnzahlSpieler() == 6) {
-					if (gruppen.get(i).get(j).getSpieler().size() == 6) {
+				else if (gruppen.get(i).get(j).getSpieler().size() >= 6) {
+					if (gruppen.get(i).get(j).getMaxAnzahlSpieler() == 6) {
 						ArrayList<Gruppe> dummy = setDreierGruppen(gruppen.get(i).get(j));
 						for (int k = 0; k < dummy.size(); k++) {
 							gruppen.get(i).add(dummy.get(k));
@@ -753,17 +669,31 @@ public class AlgoBibliothek {
 						for (int k = 0; k < dummy.size(); k++) {
 							gruppen.get(i).add(dummy.get(k));
 						}
+					} else {
+						ArrayList<Gruppe> dummy = setDreierGruppen(gruppen.get(i).get(j));
+						for (int k = 0; k < dummy.size(); k++) {
+							gruppen.get(i).add(dummy.get(k));
+						}
+						dummy = setViererGruppen(gruppen.get(i).get(j));
+						for (int k = 0; k < dummy.size(); k++) {
+							gruppen.get(i).add(dummy.get(k));
+						}
+						dummy = setFuenferGruppen(gruppen.get(i).get(j));
+						for (int k = 0; k < dummy.size(); k++) {
+							gruppen.get(i).add(dummy.get(k));
+						}
 					}
 
 				}
-
 				Gruppe gruppe = gruppen.get(i).get(j);
 
 				gruppen.get(i).get(j).setName("1/" + gruppe.getName());
 
 			}
+
 		}
 		return gruppen;
+
 	}
 
 	private static ArrayList<ArrayList<Gruppe>> WiederBefuellungZweierGruppe(ArrayList<ArrayList<Gruppe>> gruppen) {
