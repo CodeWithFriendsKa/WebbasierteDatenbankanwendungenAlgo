@@ -76,7 +76,7 @@ public class AlgoBibliothek {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private static void berechneHash(ArrayList<ArrayList<ZeitEnd>> endZeiten) {
 		ArrayList<ArrayList<Zeiten>> vorläufigeClone = (ArrayList<ArrayList<Zeiten>>) endZeiten.clone();
 		
@@ -130,7 +130,6 @@ public class AlgoBibliothek {
 		
 		naechsteMoeglichkeit:
 		for (int i2 = 0; i2 < anzUntergruppen; i2++) {
-			int zaehler = 0;
 			
 			ArrayList<ZeitEnd> dummyInnenListe = new ArrayList<ZeitEnd>();
 			
@@ -227,6 +226,7 @@ public class AlgoBibliothek {
 		}
 		
 
+		@SuppressWarnings("unused")
 		ArrayList<ArrayList<ZeitEnd>> ausgabe = new ArrayList<ArrayList<ZeitEnd>>();
 		
 		for (int i = 0; i < dummy.size(); i++) {

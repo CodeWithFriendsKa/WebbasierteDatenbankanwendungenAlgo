@@ -9,7 +9,7 @@ public class MainTest {
 		ArrayList<Spieler> spieler = TestList.testListSpieler();
 		ArrayList<Trainer> trainer = TestList.testListTrainer();
 		ArrayList<Platz> plaetze = TestList.testListPlätze();
-		ArrayList<Zeiten> test = AlgoBibliothek.ErstellePlan(spieler, trainer, plaetze);
+		AlgoBibliothek.ErstellePlan(spieler, trainer, plaetze);
 		ArrayList<ArrayList<ZeitEnd>> vorMoeg = AlgoBibliothek.gruppenZuordnen(spieler,trainer,plaetze);
 		
 		System.out.println("anz moeglichkeiten: " + AlgoBibliothek.gruppenZuordnen(spieler,trainer,plaetze).size());
@@ -19,13 +19,17 @@ public class MainTest {
 			System.out.println("moeglichkeit: " + i);
 			
 			for (int j = 0; j < vorMoeg.get(i).size(); j++) {
-				System.out.println("Stunde: " + vorMoeg.get(i).get(j).getZeit());
+				System.out.println("Stunde: " + vorMoeg.get(i).get(j).getZeit() + "\n");
+
+				System.out.println("Name des Trainers: " + vorMoeg.get(i).get(j).getTrainer().getName());
+				System.out.println("Name des Platzes: " + vorMoeg.get(i).get(j).getPlatz().getName() + "\n");
+				
 				System.out.println("Name der Gruppe: " + vorMoeg.get(i).get(j).getGruppe().getName());
 				for (int k = 0; k < vorMoeg.get(i).get(j).getGruppe().getSpieler().size(); k++) {
 					System.out.println("Name von Spieler " + (k+1) + " :" + vorMoeg.get(i).get(j).getGruppe().getSpieler().get(k).getName());
 				}
-				System.out.println("Name des Trainers:  " + vorMoeg.get(i).get(j).getTrainer().getName());
-				System.out.println("Name des Platzes: " + vorMoeg.get(i).get(j).getPlatz().getName());
+				
+				System.out.println("-- -- -- -- --");
 				
 				
 				
