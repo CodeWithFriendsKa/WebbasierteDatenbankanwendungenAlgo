@@ -6,7 +6,6 @@ public class Zeiten {
 	private static int zaehler=1;
 	int id;
 	int zeit;
-	Hash hash;
 	ArrayList<Trainer> trainer;
 	ArrayList<Platz> platz;
 	ArrayList<Gruppe> gruppen;
@@ -29,14 +28,6 @@ public class Zeiten {
 		zaehler++;
 	}
 	
-	
-	public Hash getHash() {
-		return hash;
-	}
-
-	public void setHash(Hash hash) {
-		this.hash = hash;
-	}
 
 	public static String intToString(int zeitInt) {
 		String dummy="";

@@ -11,8 +11,8 @@ public class Hash {
 		return hash;
 	}
 	
-	public int addHash(Hash var) {
-		hash += var.getHash();
+	public int addHash(int i) {
+		hash += i;
 		return hash;
 	}
 	

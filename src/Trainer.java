@@ -11,7 +11,7 @@ public class Trainer {
 	private int minAnzTraining;
 	private int aktAnzTraining;
 	private ArrayList<ArrayList<Pause>> pauseProTag = new ArrayList<ArrayList<Pause>>();
-
+	private static ArrayList<Trainer> alleTrainer = new ArrayList<Trainer>();
 	
 	
 	public ArrayList<Integer> getMinTrainingProTag() {
@@ -37,6 +37,13 @@ public class Trainer {
 		this.id = zaehler;
 		this.minAnzTraining = minAnzTraining;
 		zaehler++;
+		alleTrainer.add(this);
+	}
+	
+	
+
+	public static ArrayList<Trainer> getAlleTrainer() {
+		return alleTrainer;
 	}
 
 	public void setMinAnzTraining(int minAnzTraining) {

@@ -5,6 +5,7 @@ public class ZeitEnd {
 	Platz platz;
 	Gruppe gruppe;
 	int zeit;
+	Hash hash;
 	
 	public ZeitEnd(Trainer trainer, Platz platz, Gruppe gruppe, int zeit) {
 		super();
@@ -12,6 +13,11 @@ public class ZeitEnd {
 		this.platz = platz;
 		this.gruppe = gruppe;
 		this.zeit = zeit;
+	}
+	
+	
+	public Hash getHash() {
+		return hash;
 	}
 	public Trainer getTrainer() {
 		return trainer;

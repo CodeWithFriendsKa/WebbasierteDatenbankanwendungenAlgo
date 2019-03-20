@@ -51,7 +51,7 @@ public class AlgoBibliothek {
 		gruppen = GruppenSplitten(gruppen);
 		gruppen = KontrolleSpielerBereitsZuo(gruppen);
 		gruppen = WiederBefuellungZweierGruppe(gruppen);
-		gruppen = KontrolleSpielerBereitsZuo(gruppen);// nochmal wegen Spieler ohne Zuo
+		gruppen = KontrolleSpielerBereitsZuo(gruppen);// ein zweites Mal wegen Spieler ohne Zuo
 		zeiten = PruefePlatzUndTrainer(plaetze, trainer, gruppen);
 		zeiten = LoscheZeitenOhneTrainer(zeiten);
 		spielerHatKeinTrainer = SpielerOhneZuo(spieler, zeiten);
@@ -64,30 +64,56 @@ public class AlgoBibliothek {
 		
 	}
 	
-	private static void Algorythmus(ArrayList<Spieler> spieler, ArrayList<Trainer> trainer, ArrayList<Platz> plaetze) {
+	public static ArrayList<ZeitEnd> Algorythmus(ArrayList<Spieler> spieler, ArrayList<Trainer> trainer, ArrayList<Platz> plaetze) {
 		
 		SpielerOhneZuo(spieler, zeitenKopie);
-		SpielerHatFuerAlleTermineTraining(spieler, trainer, plaetze, zeiten);
-		TrainerMinTermineTraining(spieler, trainer, plaetze);
-		TrainerPauseZwischenTrainingszeitenProTag(spieler, trainer, plaetze);
+		TrainerPauseZwischenTrainingszeitenProTag(trainer);
 		
 		vorLaeufigeMoeglichkeiten = gruppenZuordnen(spieler, trainer, plaetze);
-		// berechneHash(vorLaeufigeMoeglichkeiten);
+		
+		return 	berechneHash(vorLaeufigeMoeglichkeiten);
 		
 	}
 	
-	@SuppressWarnings({ "unchecked", "unused" })
-	private static void berechneHash(ArrayList<ArrayList<ZeitEnd>> endZeiten) {
-		ArrayList<ArrayList<Zeiten>> vorläufigeClone = (ArrayList<ArrayList<Zeiten>>) endZeiten.clone();
+	@SuppressWarnings({ "unchecked" })
+	private static ArrayList<ZeitEnd> berechneHash(ArrayList<ArrayList<ZeitEnd>> endZeiten) {
+		ArrayList<ArrayList<ZeitEnd>> vorläufigeClone = (ArrayList<ArrayList<ZeitEnd>>) endZeiten.clone();
+		ArrayList<ZeitEnd> besteMoeglichkeit = new ArrayList<>();
+		Hash niedrigsterHash = new Hash(100000);
 		
 		for (int i = 0; i < vorläufigeClone.size(); i++) {
-			for (int j = 0; j < vorläufigeClone.get(i).size(); j++) {
-				Hash dummyHash = null;
+			Hash dummy = new Hash(0);
+			TrainerMinTermineTraining(Trainer.getAlleTrainer(), vorläufigeClone.get(i));
+			for (int j = 0; j < Trainer.getAlleTrainer().size(); j++) {
+				if(Trainer.getAlleTrainer().get(j).getAktAnzTraining() - Trainer.getAlleTrainer().get(j).getMinAnzTraining() == 0) dummy.addHash(0);
+				else if(Trainer.getAlleTrainer().get(j).getAktAnzTraining() - Trainer.getAlleTrainer().get(j).getMinAnzTraining() == 1) dummy.addHash(1);
+				else if(Trainer.getAlleTrainer().get(j).getAktAnzTraining() - Trainer.getAlleTrainer().get(j).getMinAnzTraining() < 1 ) dummy.addHash(5);
+				else if(Trainer.getAlleTrainer().get(j).getAktAnzTraining() - Trainer.getAlleTrainer().get(j).getMinAnzTraining() < 3) dummy.addHash(10);
 				
-				vorläufigeClone.get(i).get(j).setHash(dummyHash);
+				for (int k = 0; k < 6; k++) {
+					if(Trainer.getAlleTrainer().get(j).getPauseProTag().get(k).size() < 1) dummy.addHash(0);
+					else if(Trainer.getAlleTrainer().get(j).getPauseProTag().get(k).size() == 1) dummy.addHash(4);
+					else if(Trainer.getAlleTrainer().get(j).getPauseProTag().get(k).size() == 2) dummy.addHash(5);
+					else if(Trainer.getAlleTrainer().get(j).getPauseProTag().get(k).size() > 2) dummy.addHash(2);
+				}
+			}
+			
+			
+			for (int j = 0; j < Spieler.getAlleSpieler().size(); j++) {
+				try {
+					SpielerHatFuerAlleTermineTraining(Spieler.getAlleSpieler(), vorläufigeClone.get(i));
+					if(Spieler.getAlleSpieler().get(j).getTrainingsAnzahlAktuell() < Spieler.getAlleSpieler().get(j).getTrainingsAnzahl())dummy.addHash(3);
+				} catch (ZuVieleTrainingsBeiSpieler e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(niedrigsterHash.getHash() > dummy.getHash()) {
+				besteMoeglichkeit = vorläufigeClone.get(i);
 			}
 			
 		}
+		return besteMoeglichkeit;
 		
 	}
 	
@@ -319,8 +345,7 @@ public class AlgoBibliothek {
 	 * }
 	 */
 	
-	private static void TrainerPauseZwischenTrainingszeitenProTag(ArrayList<Spieler> spieler,
-			ArrayList<Trainer> trainer, ArrayList<Platz> plaetze) {
+	private static void TrainerPauseZwischenTrainingszeitenProTag(ArrayList<Trainer> trainer) {
 		
 		for (int i = 0; i < trainer.size(); i++) {
 			
@@ -370,7 +395,6 @@ public class AlgoBibliothek {
 			trainer.get(i).setPauseProTag(pausen);
 			LoscheGewolltePausen(trainer.get(i));
 		}
-		
 	}
 	
 	private static void LoscheGewolltePausen(Trainer trainer) {
@@ -393,28 +417,22 @@ public class AlgoBibliothek {
 		
 	}
 	
-	private static void TrainerMinTermineTraining(ArrayList<Spieler> spieler, ArrayList<Trainer> trainer,
-			ArrayList<Platz> plaetze) {
-		for (int i = 0; i < trainer.size(); i++) {
-			int zaehlerAnzTraining = 0;
-			for (int j = 0; j < zeiten.size(); j++) {
-				if (zeiten.get(j) != null)
-					if (zeiten.get(j).getTrainer().contains(trainer.get(i))) {
-					zaehlerAnzTraining++;
-					}
-					
-			}
-			
-			trainer.get(i).setAktAnzTraining(zaehlerAnzTraining);
-			if (trainer.get(i).getMinAnzTraining() < zaehlerAnzTraining) {
-				continue;
-			}
-		}
+	private static void TrainerMinTermineTraining(ArrayList<Trainer> trainer, ArrayList<ZeitEnd> zeitEnd) {
 		
+	for (int j = 0; j < trainer.size(); j++) {
+		int zaehlerAnzTraining = 0;
+		for (int i = 0; i < zeitEnd.size(); i++) {
+				if(zeitEnd != null) {
+					if (zeitEnd.get(i).getTrainer().equals(trainer.get(j))) {
+						zaehlerAnzTraining++;
+					}
+				}
+			}
+			trainer.get(j).setAktAnzTraining(zaehlerAnzTraining);
+		}		
 	}
 	
-	private static int SpielerHatFuerAlleTermineTraining(ArrayList<Spieler> spieler, ArrayList<Trainer> trainer,
-			ArrayList<Platz> plaetze, ArrayList<Zeiten> zeiten) {
+	private static void SpielerHatFuerAlleTermineTraining(ArrayList<Spieler> spieler, ArrayList<ZeitEnd> zeiten) throws ZuVieleTrainingsBeiSpieler {
 		for (int i = 0; i < spieler.size(); i++) {
 			if (spieler.get(i).getTrainingsAnzahl() == 1)
 				continue;
@@ -422,9 +440,9 @@ public class AlgoBibliothek {
 			int zeit = 0;
 			for (int j = 0; j < zeiten.size(); j++) {
 				if (zeiten.get(j) != null)
-					for (int z = 0; z < zeiten.get(j).getGruppen().size(); z++) {
+					for (int z = 0; z < zeiten.get(j).getGruppe().getSpieler().size(); z++) {
 					
-					if (zeiten.get(j).getGruppen().get(z).getSpieler().contains(spieler.get(i))) {
+					if (zeiten.get(j).getGruppe().getSpieler().contains(spieler.get(i))) {
 						
 					if (zeit + 14 > zeiten.get(j).getZeit())
 						continue;
@@ -434,16 +452,15 @@ public class AlgoBibliothek {
 					}
 					
 			}
-			if (var < spieler.get(i).getTrainingsAnzahl()) {
+			if (var <= spieler.get(i).getTrainingsAnzahl()) {
 				spieler.get(i).setTrainingsAnzahlAktuell(var);
 			}
 			if (var > spieler.get(i).getTrainingsAnzahl()) {
-				return 0;
-			} // muss zaehlen
+				throw new ZuVieleTrainingsBeiSpieler();
 		}
-		return 1;
 		
 	}
+}
 	
 	private static ArrayList<Spieler> SpielerOhneZuo(ArrayList<Spieler> spieler, ArrayList<Zeiten> zeiten) {
 		
@@ -945,4 +962,17 @@ public class AlgoBibliothek {
 		return zeiten;
 	}
 	
+}
+
+class ZuVieleTrainingsBeiSpieler extends Exception
+{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	ZuVieleTrainingsBeiSpieler()
+    {
+        super("Min ein Spieler hat zu oft Training");
+    }
 }
