@@ -106,7 +106,7 @@ public class Spieler {
 		return id;
 	}
 
-	public static int getZeitenArraygroesse() {
+	public static int getZeitenArrayGroesse() {
 		return zeitenArraygroesse;
 	}	
 

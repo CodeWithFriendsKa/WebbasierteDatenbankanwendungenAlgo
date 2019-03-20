@@ -10,8 +10,32 @@ public class MainTest {
 		ArrayList<Trainer> trainer = TestList.testListTrainer();
 		ArrayList<Platz> plaetze = TestList.testListPlätze();
 		ArrayList<Zeiten> test = AlgoBibliothek.ErstellePlan(spieler, trainer, plaetze);
+		ArrayList<ArrayList<ZeitEnd>> vorMoeg = AlgoBibliothek.gruppenZuordnen(spieler,trainer,plaetze);
+		
+		System.out.println("anz moeglichkeiten: " + AlgoBibliothek.gruppenZuordnen(spieler,trainer,plaetze).size());
 
-		System.out.println("anz möglichkeiten " + AlgoBibliothek.getVorLaeufigeMoeglichkeiten().size());
+		for (int i = 0; i < vorMoeg.size(); i++) {
+			
+			System.out.println("moeglichkeit: " + i);
+			
+			for (int j = 0; j < vorMoeg.get(i).size(); j++) {
+				System.out.println("Stunde: " + vorMoeg.get(i).get(j).getZeit());
+				System.out.println("Name der Gruppe: " + vorMoeg.get(i).get(j).getGruppe().getName());
+				for (int k = 0; k < vorMoeg.get(i).get(j).getGruppe().getSpieler().size(); k++) {
+					System.out.println("Name von Spieler " + (k+1) + " :" + vorMoeg.get(i).get(j).getGruppe().getSpieler().get(k).getName());
+				}
+				System.out.println("Name des Trainers:  " + vorMoeg.get(i).get(j).getTrainer().getName());
+				System.out.println("Name des Platzes: " + vorMoeg.get(i).get(j).getPlatz().getName());
+				
+				
+				
+			}
+
+			System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		}
+		/*
+		System.out.println("anz möglichkeiten " + AlgoBibliothek.getZeiten().size());
+		
 		
 		for(int i=0;i<test.size();i++) {
 			if(test.get(i)==null)continue;
@@ -68,7 +92,7 @@ public class MainTest {
 
 			System.out.println(	AlgoBibliothek.getZweierGruppe().get(i).getName());
 		}
-		*/
+		
 		
 		System.out.println(	"Spieler ohne Trainer:");
 		for(int i=0;i<AlgoBibliothek.getSpielerHatKeinTrainer().size();i++) {
@@ -76,7 +100,7 @@ public class MainTest {
 			System.out.println(	AlgoBibliothek.getSpielerHatKeinTrainer().get(i).getName());
 		}
 
-		/*System.out.println(	"Zweier Gruppen:");
+		System.out.println(	"Zweier Gruppen:");
 		for(int i=0;i<AlgoBibliothek.getZweierGruppe().size();i++) {
 
 			System.out.println(	AlgoBibliothek.getZweierGruppe().get(i).getName());
