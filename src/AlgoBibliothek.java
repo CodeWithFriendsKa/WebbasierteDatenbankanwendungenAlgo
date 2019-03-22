@@ -64,14 +64,14 @@ public class AlgoBibliothek {
 		
 	}
 	
-	public static ArrayList<ZeitEndModel>Algorythmus(ArrayList<SpielerModel> spieler, ArrayList<TrainerModel> trainer, ArrayList<Platz> plaetze) {
+	public static ArrayList<ZeitEndModel> Algorythmus(ArrayList<SpielerModel> spieler, ArrayList<TrainerModel> trainer, ArrayList<Platz> plaetze) {
 		
 		SpielerOhneZuo(spieler, zeitenKopie);
 		TrainerPauseZwischenTrainingszeitenProTag(trainer);
 		
 		vorLaeufigeMoeglichkeiten = gruppenZuordnen(spieler, trainer, plaetze);
 		
-		return 	berechneHash(vorLaeufigeMoeglichkeiten);
+		return berechneHash(vorLaeufigeMoeglichkeiten);
 		
 	}
 	
@@ -85,30 +85,29 @@ public class AlgoBibliothek {
 			Hash dummy = new Hash(0);
 			TrainerMinTermineTraining(TrainerModel.getAlleTrainer(), vorlaeufigeClone.get(i));
 			for (int j = 0; j < TrainerModel.getAlleTrainer().size(); j++) {
-				if(TrainerModel.getAlleTrainer().get(j).getAktAnzTraining() - TrainerModel.getAlleTrainer().get(j).getMinAnzTraining() == 0) dummy.addHash(0);
-				else if(TrainerModel.getAlleTrainer().get(j).getAktAnzTraining() - TrainerModel.getAlleTrainer().get(j).getMinAnzTraining() == 1) dummy.addHash(1);
-				else if(TrainerModel.getAlleTrainer().get(j).getAktAnzTraining() - TrainerModel.getAlleTrainer().get(j).getMinAnzTraining() < 1 ) dummy.addHash(5);
-				else if(TrainerModel.getAlleTrainer().get(j).getAktAnzTraining() - TrainerModel.getAlleTrainer().get(j).getMinAnzTraining() < 3) dummy.addHash(10);
+				if (TrainerModel.getAlleTrainer().get(j).getAktAnzTraining() - TrainerModel.getAlleTrainer().get(j).getMinAnzTraining() == 0) dummy.addHash(0);
+				else if (TrainerModel.getAlleTrainer().get(j).getAktAnzTraining() - TrainerModel.getAlleTrainer().get(j).getMinAnzTraining() == 1) dummy.addHash(1);
+				else if (TrainerModel.getAlleTrainer().get(j).getAktAnzTraining() - TrainerModel.getAlleTrainer().get(j).getMinAnzTraining() < 1) dummy.addHash(5);
+				else if (TrainerModel.getAlleTrainer().get(j).getAktAnzTraining() - TrainerModel.getAlleTrainer().get(j).getMinAnzTraining() < 3) dummy.addHash(10);
 				
 				for (int k = 0; k < 6; k++) {
-					if(TrainerModel.getAlleTrainer().get(j).getPauseProTag().get(k).size() < 1) dummy.addHash(0);
-					else if(TrainerModel.getAlleTrainer().get(j).getPauseProTag().get(k).size() == 1) dummy.addHash(4);
-					else if(TrainerModel.getAlleTrainer().get(j).getPauseProTag().get(k).size() == 2) dummy.addHash(5);
-					else if(TrainerModel.getAlleTrainer().get(j).getPauseProTag().get(k).size() > 2) dummy.addHash(2);
+					if (TrainerModel.getAlleTrainer().get(j).getPauseProTag().get(k).size() < 1) dummy.addHash(0);
+					else if (TrainerModel.getAlleTrainer().get(j).getPauseProTag().get(k).size() == 1) dummy.addHash(4);
+					else if (TrainerModel.getAlleTrainer().get(j).getPauseProTag().get(k).size() == 2) dummy.addHash(5);
+					else if (TrainerModel.getAlleTrainer().get(j).getPauseProTag().get(k).size() > 2) dummy.addHash(2);
 				}
 			}
-			
 			
 			for (int j = 0; j < SpielerModel.getAlleSpieler().size(); j++) {
 				try {
 					SpielerHatFuerAlleTermineTraining(SpielerModel.getAlleSpieler(), vorlaeufigeClone.get(i));
-					if(SpielerModel.getAlleSpieler().get(j).getTrainingsAnzahlAktuell() < SpielerModel.getAlleSpieler().get(j).getTrainingsAnzahl())dummy.addHash(3);
+					if (SpielerModel.getAlleSpieler().get(j).getTrainingsAnzahlAktuell() < SpielerModel.getAlleSpieler().get(j).getTrainingsAnzahl()) dummy.addHash(3);
 				} catch (ZuVieleTrainingsBeiSpieler e) {
 					e.printStackTrace();
 				}
 			}
 			
-			if(niedrigsterHash.getHash() > dummy.getHash()) {
+			if (niedrigsterHash.getHash() > dummy.getHash()) {
 				besteMoeglichkeit = vorlaeufigeClone.get(i);
 			}
 			
@@ -128,22 +127,20 @@ public class AlgoBibliothek {
 	
 	public static GruppeModel getUntergruppeById(int var) {
 		int zaehler = 0;
-	
 		
 		for (int i = 0; i < zeiten.size(); i++) {
 			for (int j = 0; j < zeiten.get(i).getGruppen().size(); j++) {
 				int indexGruppe = 0;
 				if (zeiten.get(i) == null) continue;
-				zaehler ++;
+				zaehler++;
 				indexGruppe++;
 				
-				if(zaehler == var) {
+				if (zaehler == var) {
 					GruppeModel dummy = zeiten.get(i).getGruppen().get(indexGruppe);
 					return dummy;
 				}
 			}
 		}
-		
 		
 		return null;
 	}
@@ -240,7 +237,7 @@ public class AlgoBibliothek {
 					continue;
 				}
 			}
-
+			
 			System.out.println(((double) i2 / (double) anzUntergruppen) * 100 + " prozent");
 			
 			if (copyAlleSpieler.isEmpty()) {
@@ -251,13 +248,12 @@ public class AlgoBibliothek {
 			
 		}
 		
-
 		@SuppressWarnings("unused")
 		ArrayList<ArrayList<ZeitEndModel>> ausgabe = new ArrayList<ArrayList<ZeitEndModel>>();
 		
 		for (int i = 0; i < dummy.size(); i++) {
 			for (int j = 0; j < dummy.get(i).size(); j++) {
-				//if()break;
+				// if()break;
 			}
 		}
 		
@@ -419,17 +415,17 @@ public class AlgoBibliothek {
 	
 	private static void TrainerMinTermineTraining(ArrayList<TrainerModel> trainer, ArrayList<ZeitEndModel> zeitEnd) {
 		
-	for (int j = 0; j < trainer.size(); j++) {
-		int zaehlerAnzTraining = 0;
-		for (int i = 0; i < zeitEnd.size(); i++) {
-				if(zeitEnd != null) {
+		for (int j = 0; j < trainer.size(); j++) {
+			int zaehlerAnzTraining = 0;
+			for (int i = 0; i < zeitEnd.size(); i++) {
+				if (zeitEnd != null) {
 					if (zeitEnd.get(i).getTrainer().equals(trainer.get(j))) {
 						zaehlerAnzTraining++;
 					}
 				}
 			}
 			trainer.get(j).setAktAnzTraining(zaehlerAnzTraining);
-		}		
+		}
 	}
 	
 	private static void SpielerHatFuerAlleTermineTraining(ArrayList<SpielerModel> spieler, ArrayList<ZeitEndModel> zeiten) throws ZuVieleTrainingsBeiSpieler {
@@ -457,10 +453,10 @@ public class AlgoBibliothek {
 			}
 			if (var > spieler.get(i).getTrainingsAnzahl()) {
 				throw new ZuVieleTrainingsBeiSpieler();
+			}
+			
 		}
-		
 	}
-}
 	
 	private static ArrayList<SpielerModel> SpielerOhneZuo(ArrayList<SpielerModel> spieler, ArrayList<ZeitenModel> zeiten) {
 		
@@ -906,11 +902,25 @@ public class AlgoBibliothek {
 		return gruppen;
 	}
 	
-	private static ArrayList<ZeitenModel> PruefePlatzUndTrainer(ArrayList<Platz> plaetze,
-			// Die Funktion Erstellt eine neue Liste in dieser werden alle Plaetze, Trainer
-			// und Untergruppen verglichen und in die entsprechenden Felder eingeordnet
-			
-			ArrayList<TrainerModel> trainer, ArrayList<ArrayList<GruppeModel>> gruppen) {
+	public static int[] alleMoeglichenTrainingsZeiten(ArrayList<Platz> plaetze, ArrayList<TrainerModel> trainer) {
+		int[] dummy = new int[SpielerModel.getZeitenArrayGroesse()];
+		
+		for (int i = 0; i < trainer.size(); i++) {
+			for (int j = 0; j < SpielerModel.getZeitenArrayGroesse(); j++) {
+				if (trainer.get(i).getZeiten()[j] == 1) dummy[j] = 1;
+			}
+		}
+		
+		for (int i = 0; i < plaetze.size(); i++) {
+			for (int j = 0; j < SpielerModel.getZeitenArrayGroesse(); j++) {
+				if(plaetze.get(i).getZeiten()[j] == 0) dummy[j] = 0;
+			}
+		}
+		
+		return dummy;
+	}
+	
+	private static ArrayList<ZeitenModel> PruefePlatzUndTrainer(ArrayList<Platz> plaetze, ArrayList<TrainerModel> trainer, ArrayList<ArrayList<GruppeModel>> gruppen) {
 		
 		for (int i = 0; i < SpielerModel.getZeitenArrayGroesse(); i++) {
 			zeiten.add(new ZeitenModel(i));
@@ -964,15 +974,13 @@ public class AlgoBibliothek {
 	
 }
 
-class ZuVieleTrainingsBeiSpieler extends Exception
-{
+class ZuVieleTrainingsBeiSpieler extends Exception {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	ZuVieleTrainingsBeiSpieler()
-    {
-        super("Min ein Spieler hat zu oft Training");
-    }
+	
+	ZuVieleTrainingsBeiSpieler() {
+		super("Min ein Spieler hat zu oft Training");
+	}
 }

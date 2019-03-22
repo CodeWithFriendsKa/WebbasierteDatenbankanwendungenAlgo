@@ -29,5 +29,11 @@ public class MainTest {
 		}
 		
 		System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+	
+		for (int i = 0; i <  AlgoBibliothek.alleMoeglichenTrainingsZeiten(plaetze,trainer).length; i++) {
+			System.out.println("" + AlgoBibliothek.alleMoeglichenTrainingsZeiten(plaetze,trainer)[i]);
+			
+		}
+	
 	}
 }
