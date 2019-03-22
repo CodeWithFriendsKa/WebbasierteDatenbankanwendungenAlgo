@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
-public class Zeiten {
+public class ZeitenModel {
 
 	private static int groesstegruppe=0;
 	private static int zaehler=1;
 	int id;
 	int zeit;
-	ArrayList<Trainer> trainer;
+	ArrayList<TrainerModel> trainer;
 	ArrayList<Platz> platz;
-	ArrayList<Gruppe> gruppen;
+	ArrayList<GruppeModel> gruppen;
 
-	public Zeiten(int zeit, ArrayList<Trainer> trainer, ArrayList<Platz> platz) {
+	public ZeitenModel(int zeit, ArrayList<TrainerModel> trainer, ArrayList<Platz> platz) {
 		this.zeit = zeit;
 		this.trainer = trainer;
 		this.platz = platz;
@@ -19,10 +19,10 @@ public class Zeiten {
 		
 	}
 
-	public Zeiten(int zeit) {
+	public ZeitenModel(int zeit) {
 
 		this.zeit = zeit;
-		this.trainer = new ArrayList<Trainer>();;
+		this.trainer = new ArrayList<TrainerModel>();;
 		this.platz = new ArrayList<Platz>();;
 		this.id = zaehler;
 		zaehler++;
@@ -42,7 +42,7 @@ public class Zeiten {
 	}
 
 	public int getTrainingsGruppenMoeglichkeiten() {					
-		//Wenn mehr Plätze als Trainer zur Verfügung stehen kann MaxAnzTrainer.size() Training gegeben werden die Anz der Trainer werden hier zurück gegeben
+		//Wenn mehr Plaetze als Trainer zur Verfuegung stehen kann MaxAnzTrainer.size() Training gegeben werden die Anz der Trainer werden hier zurueck gegeben
 
 		if(trainer.size()<platz.size())return trainer.size();
 
@@ -51,7 +51,7 @@ public class Zeiten {
 
 
 
-	public void setGruppen(ArrayList<Gruppe> gruppen) {
+	public void setGruppen(ArrayList<GruppeModel> gruppen) {
 		if(gruppen.size()>groesstegruppe) {
 			groesstegruppe=gruppen.size();
 		}
@@ -66,7 +66,7 @@ public class Zeiten {
 		this.zeit = zeit;
 	}
 
-	public void setTrainer(ArrayList<Trainer> trainer) {
+	public void setTrainer(ArrayList<TrainerModel> trainer) {
 		this.trainer = trainer;
 	}
 
@@ -76,7 +76,7 @@ public class Zeiten {
 		return groesstegruppe;
 	}
 
-	public ArrayList<Trainer> getTrainer() {
+	public ArrayList<TrainerModel> getTrainer() {
 		return trainer;
 	}
 
@@ -84,7 +84,7 @@ public class Zeiten {
 		return platz;
 	}
 
-	public ArrayList<Gruppe> getGruppen() {
+	public ArrayList<GruppeModel> getGruppen() {
 		return gruppen;
 	}
 

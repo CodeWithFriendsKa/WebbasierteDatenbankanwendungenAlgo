@@ -7,9 +7,9 @@ public class TestList {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@SuppressWarnings("unused")
-	public static ArrayList<Spieler> testListSpieler() {
+	public static ArrayList<SpielerModel> testListSpieler() {
 
-		ArrayList<Spieler> alleSpieler = new ArrayList<Spieler>();
+		ArrayList<SpielerModel> alleSpieler = new ArrayList<SpielerModel>();
 
 					//	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
 		int[] data1 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  
@@ -181,28 +181,28 @@ public class TestList {
 						 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
 						 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 };
 
-		Spieler spieler1 = new Spieler("Niklas", data1, 16, 'm', 2);
-		Spieler spieler2 = new Spieler("Sascha", data2, 14, 'm', 1);
-		Spieler spieler3 = new Spieler("Kevin", data3, 12, 'm', 1);
-		Spieler spieler4 = new Spieler("Bob", data4, 13, 'm', 1);
-		Spieler spieler5 = new Spieler("Heinz", data5, 16, 'm', 2);
-		Spieler spieler6 = new Spieler("Tobi", data6, 15, 'm', 1);
-		Spieler spieler7 = new Spieler("Flo", data7, 15, 'm', 1);
-		Spieler spieler8 = new Spieler("Rouven", data8, 14, 'm', 2);
-		Spieler spieler9 = new Spieler("Karl", data9, 5, 'm', 1);
-		Spieler spieler10 = new Spieler("Jojo", data10, 6, 'm', 1);
+		SpielerModel spieler1 = new SpielerModel("Niklas", data1, 16, 'm', 2);
+		SpielerModel spieler2 = new SpielerModel("Sascha", data2, 14, 'm', 1);
+		SpielerModel spieler3 = new SpielerModel("Kevin", data3, 12, 'm', 1);
+		SpielerModel spieler4 = new SpielerModel("Bob", data4, 13, 'm', 1);
+		SpielerModel spieler5 = new SpielerModel("Heinz", data5, 16, 'm', 2);
+		SpielerModel spieler6 = new SpielerModel("Tobi", data6, 15, 'm', 1);
+		SpielerModel spieler7 = new SpielerModel("Flo", data7, 15, 'm', 1);
+		SpielerModel spieler8 = new SpielerModel("Rouven", data8, 14, 'm', 2);
+		SpielerModel spieler9 = new SpielerModel("Karl", data9, 5, 'm', 1);
+		SpielerModel spieler10 = new SpielerModel("Jojo", data10, 6, 'm', 1);
 		 
 
-		Spieler spieler11 = new Spieler("Anna", data11, 16, 'w', 1);
-		Spieler spieler20 = new Spieler("Soraka", data12, 15, 'w', 1);
-		Spieler spieler12 = new Spieler("Anne", data13, 15, 'w', 1);
-		Spieler spieler13 = new Spieler("Lisa", data14, 11, 'w', 2);
-		Spieler spieler14 = new Spieler("Lisandra", data15, 14, 'w', 2);
-		Spieler spieler15 = new Spieler("Diana", data16, 13, 'w', 1);
-		Spieler spieler16 = new Spieler("Sona", data17, 12, 'w', 1);
-		Spieler spieler17 = new Spieler("Kayle", data18, 11, 'w', 1);
-		Spieler spieler18 = new Spieler("Annie", data19, 5, 'w', 1);
-		Spieler spieler19 = new Spieler("Lux", data20, 5, 'w', 1);
+		SpielerModel spieler11 = new SpielerModel("Anna", data11, 16, 'w', 1);
+		SpielerModel spieler20 = new SpielerModel("Soraka", data12, 15, 'w', 1);
+		SpielerModel spieler12 = new SpielerModel("Anne", data13, 15, 'w', 1);
+		SpielerModel spieler13 = new SpielerModel("Lisa", data14, 11, 'w', 2);
+		SpielerModel spieler14 = new SpielerModel("Lisandra", data15, 14, 'w', 2);
+		SpielerModel spieler15 = new SpielerModel("Diana", data16, 13, 'w', 1);
+		SpielerModel spieler16 = new SpielerModel("Sona", data17, 12, 'w', 1);
+		SpielerModel spieler17 = new SpielerModel("Kayle", data18, 11, 'w', 1);
+		SpielerModel spieler18 = new SpielerModel("Annie", data19, 5, 'w', 1);
+		SpielerModel spieler19 = new SpielerModel("Lux", data20, 5, 'w', 1);
 
 		alleSpieler.add(spieler1);
 		alleSpieler.add(spieler2);
@@ -232,9 +232,9 @@ public class TestList {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static Random rand = new Random();
 
-	public static ArrayList<Trainer> testListTrainer() {
+	public static ArrayList<TrainerModel> testListTrainer() {
 
-		ArrayList<Trainer> allTrainer = new ArrayList<Trainer>();
+		ArrayList<TrainerModel> allTrainer = new ArrayList<TrainerModel>();
 
 		int[] data1 = {
 				// 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
@@ -256,9 +256,9 @@ public class TestList {
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-		Trainer Trainer1 = new Trainer("PeterTrainer", data1, 1, 0);
-		Trainer Trainer2 = new Trainer("AronTrainer", data2, 3, 3);
-		Trainer Trainer3 = new Trainer("KarlTrainer", data3, 5, 3);
+		TrainerModel Trainer1 = new TrainerModel("PeterTrainer", data1, 1, 0);
+		TrainerModel Trainer2 = new TrainerModel("AronTrainer", data2, 3, 3);
+		TrainerModel Trainer3 = new TrainerModel("KarlTrainer", data3, 5, 3);
 
 		allTrainer.add(Trainer1);
 		allTrainer.add(Trainer2);
@@ -268,12 +268,12 @@ public class TestList {
 
 	}
 
-	// PLÄTZE
+	// PLaeTZE
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static ArrayList<Platz> testListPlätze() {
+	public static ArrayList<Platz> testListPlaetze() {
 
-		ArrayList<Platz> allPlätze = new ArrayList<Platz>();
+		ArrayList<Platz> allPlaetze = new ArrayList<Platz>();
 
 		// 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
 		int[] data1 = { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
@@ -290,8 +290,8 @@ public class TestList {
 
 		Platz Platz1 = new Platz("Platz1", data1);
 		Platz Platz2 = new Platz("Platz2", data2);
-		allPlätze.add(Platz1);
-		allPlätze.add(Platz2);
-		return allPlätze;
+		allPlaetze.add(Platz1);
+		allPlaetze.add(Platz2);
+		return allPlaetze;
 	}
 }

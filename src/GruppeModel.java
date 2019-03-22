@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Gruppe {
+public class GruppeModel {
 	
 	private static int zaehler=0;
 	private int id;
@@ -10,10 +10,10 @@ public class Gruppe {
 	private int spielerStaerkeVon;
 	private int spielerStaerkeBis;
 	private char geschlecht;
-	private ArrayList<Spieler> spieler;
+	private ArrayList<SpielerModel> spieler;
 
-	public Gruppe(String name,int stunde,int anzahlMaxSpieler,int spielerStaerkeVon,int spielerStaerkeBis,char geschlecht) {
-		spieler = new ArrayList<Spieler>();	
+	public GruppeModel(String name,int stunde,int anzahlMaxSpieler,int spielerStaerkeVon,int spielerStaerkeBis,char geschlecht) {
+		spieler = new ArrayList<SpielerModel>();	
 		this.name=name;
 		this.stunde=stunde;
 		this.anzahlMaxSpieler=anzahlMaxSpieler;
@@ -36,11 +36,11 @@ public class Gruppe {
 		this.stunde = stunde;
 	}
 
-	public void setSpieler(ArrayList<Spieler> spieler) {
+	public void setSpieler(ArrayList<SpielerModel> spieler) {
 		this.spieler = spieler;
 	}
 	
-	public void addSpieler(Spieler spieler) {
+	public void addSpieler(SpielerModel spieler) {
 		this.spieler.add(spieler);
 	}
 
@@ -75,7 +75,7 @@ public class Gruppe {
 	}
 
 
-	public ArrayList<Spieler> getSpieler() {
+	public ArrayList<SpielerModel> getSpieler() {
 		return spieler;
 	}
 

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Trainer {
+public class TrainerModel {
 	
 	private static int zaehler = 0;
 	private int id;
@@ -10,8 +10,8 @@ public class Trainer {
 	private  ArrayList<Integer> minTrainingProTag;
 	private int minAnzTraining;
 	private int aktAnzTraining;
-	private ArrayList<ArrayList<Pause>> pauseProTag = new ArrayList<ArrayList<Pause>>();
-	private static ArrayList<Trainer> alleTrainer = new ArrayList<Trainer>();
+	private ArrayList<ArrayList<PauseModel>> pauseProTag = new ArrayList<ArrayList<PauseModel>>();
+	private static ArrayList<TrainerModel> alleTrainer = new ArrayList<TrainerModel>();
 	
 	
 	public ArrayList<Integer> getMinTrainingProTag() {
@@ -30,7 +30,7 @@ public class Trainer {
 		this.aktAnzTraining = aktAnzTraining;
 	}
 
-	public Trainer(String name, int[] zeiten, int prio, int minAnzTraining) {
+	public TrainerModel(String name, int[] zeiten, int prio, int minAnzTraining) {
 		this.name = name;
 		this.zeiten = zeiten;
 		this.prio = prio;
@@ -42,7 +42,7 @@ public class Trainer {
 	
 	
 
-	public static ArrayList<Trainer> getAlleTrainer() {
+	public static ArrayList<TrainerModel> getAlleTrainer() {
 		return alleTrainer;
 	}
 
@@ -80,11 +80,11 @@ public class Trainer {
 		return id;
 	}
 
-	public ArrayList<ArrayList<Pause>> getPauseProTag() {
+	public ArrayList<ArrayList<PauseModel>> getPauseProTag() {
 		return pauseProTag;
 	}
 
-	public void setPauseProTag(ArrayList<ArrayList<Pause>> pauseProTag) {
+	public void setPauseProTag(ArrayList<ArrayList<PauseModel>> pauseProTag) {
 		this.pauseProTag = pauseProTag;
 	}
 

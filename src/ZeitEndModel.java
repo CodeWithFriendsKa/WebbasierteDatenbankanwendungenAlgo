@@ -1,13 +1,13 @@
 
-public class ZeitEnd {
+public class ZeitEndModel {
 
-	Trainer trainer;
+	TrainerModel trainer;
 	Platz platz;
-	Gruppe gruppe;
+	GruppeModel gruppe;
 	int zeit;
 	Hash hash;
 	
-	public ZeitEnd(Trainer trainer, Platz platz, Gruppe gruppe, int zeit) {
+	public ZeitEndModel(TrainerModel trainer, Platz platz, GruppeModel gruppe, int zeit) {
 		super();
 		this.trainer = trainer;
 		this.platz = platz;
@@ -19,10 +19,10 @@ public class ZeitEnd {
 	public Hash getHash() {
 		return hash;
 	}
-	public Trainer getTrainer() {
+	public TrainerModel getTrainer() {
 		return trainer;
 	}
-	public void setTrainer(Trainer trainer) {
+	public void setTrainer(TrainerModel trainer) {
 		this.trainer = trainer;
 	}
 	public Platz getPlatz() {
@@ -31,10 +31,10 @@ public class ZeitEnd {
 	public void setPlatz(Platz platz) {
 		this.platz = platz;
 	}
-	public Gruppe getGruppe() {
+	public GruppeModel getGruppe() {
 		return gruppe;
 	}
-	public void setGruppe(Gruppe gruppe) {
+	public void setGruppe(GruppeModel gruppe) {
 		this.gruppe = gruppe;
 	}
 	public int getZeit() {

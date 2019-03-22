@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Spieler {
+public class SpielerModel {
 
 	private static int zaehler=0;
 	private int id;
@@ -11,12 +11,12 @@ public class Spieler {
 	private char geschlecht;
 	private int trainingsAnzahl;
 	private int trainingsAnzahlAktuell;
-	private static ArrayList<Spieler> alleSpieler = new ArrayList<>(); 
-	private static ArrayList<Spieler> alleSpielerMehrTraining = new ArrayList<>(); 
+	private static ArrayList<SpielerModel> alleSpieler = new ArrayList<>(); 
+	private static ArrayList<SpielerModel> alleSpielerMehrTraining = new ArrayList<>(); 
 
 	private SpielerStaerke spielerStaerke=SpielerStaerke.NICHTVORHANDEN;
 
-	public Spieler(String name,int[] zeiten,int alter, char geschlecht, int trainingsAnzahl) {
+	public SpielerModel(String name,int[] zeiten,int alter, char geschlecht, int trainingsAnzahl) {
 		this.name = name;
 		this.zeiten = zeiten;
 		this.alter = alter;
@@ -31,7 +31,7 @@ public class Spieler {
 	}
 
 	public Integer verrechneSpielerStaerkeMitAlter() {											
-		//hier wird das Spieleralter mit der Bewertung der Trainers verrechnet um die Spielerstärke zu erhalten
+		//hier wird das Spieleralter mit der Bewertung der Trainers verrechnet um die Spielerstaerke zu erhalten
 
 		if(this.spielerStaerke.Staerke()==null) return this.alter;
 		if(this.spielerStaerke.Staerke()==2)return 3 + this.alter;
@@ -41,11 +41,11 @@ public class Spieler {
 	
 	
 	
-	public static ArrayList<Spieler> getAlleSpieler() {
+	public static ArrayList<SpielerModel> getAlleSpieler() {
 		return alleSpieler;
 	}
 
-	public static ArrayList<Spieler> getAlleSpielerMehrTraining() {
+	public static ArrayList<SpielerModel> getAlleSpielerMehrTraining() {
 		return alleSpielerMehrTraining;
 	}
 
@@ -119,7 +119,7 @@ public class Spieler {
 }
 
 enum SpielerStaerke {																						
-	//Hier wird eine Variable erstell mit der die Berechnung der Spielerstärke vereinfacht wird
+	//Hier wird eine Variable erstell mit der die Berechnung der Spielerstaerke vereinfacht wird
 
 	NICHTVORHANDEN( null ),BRONZE( -2 ), IRON( -1 ), SILBER( 0 ), GOLD( 1 ), DIAMANT( 2 );
 

@@ -1,5 +1,5 @@
 
-public class Pause {
+public class PauseModel {
 
 	private int vonZeit;
 
@@ -7,7 +7,7 @@ public class Pause {
 	
 	
 	
-	public Pause(int vonZeit, int bisZeit) {
+	public PauseModel(int vonZeit, int bisZeit) {
 		super();
 		this.vonZeit = vonZeit;
 		this.bisZeit = bisZeit;
